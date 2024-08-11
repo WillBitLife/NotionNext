@@ -42,8 +42,8 @@ localization! Follow these steps to add a new localization:
 3. Add your language config to [lang.js][lang.js]. 
 4. [Create a PR][pr] with your localization updates.
 
-[fork]: https://github.com/tangly1024/NotionNext/fork
-[pr]: https://github.com/tangly1024/NotionNext/compare
+[fork]: https://github.com/willbitlife/NotionNext/fork
+[pr]: https://github.com/willbitlife/NotionNext/compare
 [next.js]: https://github.com/vercel/next.js
 [themes-dir]: themes
 [example]: themes/example

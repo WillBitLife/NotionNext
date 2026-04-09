@@ -18,6 +18,7 @@ import FloatDarkModeButton from './components/FloatDarkModeButton'
 import Footer from './components/Footer'
 import JumpToBottomButton from './components/JumpToBottomButton'
 import JumpToTopButton from './components/JumpToTopButton'
+import LoadingCover from './components/LoadingCover'
 import SideAreaLeft from './components/SideAreaLeft'
 import SideAreaRight from './components/SideAreaRight'
 import StickyBar from './components/StickyBar'
@@ -341,11 +342,15 @@ const LayoutSlug = props => {
       )
     }
   }, [post])
+
+  if (router.isFallback || !post) {
+    return <LoadingCover />
+  }
+
   return (
     <>
-      {post && !lock && <ArticleDetail {...props} />}
-
-      {post && lock && <ArticleLock validPassword={validPassword} />}
+      {!lock && <ArticleDetail {...props} />}
+      {lock && <ArticleLock validPassword={validPassword} />}
     </>
   )
 }

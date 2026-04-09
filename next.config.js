@@ -115,6 +115,7 @@ const nextConfig = {
         locales: locales
       },
   images: {
+    unoptimized: !!process.env.EXPORT,
     // 图片压缩和格式优化
     formats: ['image/avif', 'image/webp'],
     // 图片尺寸优化

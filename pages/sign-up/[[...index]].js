@@ -3,6 +3,8 @@ import { siteConfig } from '@/lib/config'
 import { fetchGlobalAllData } from '@/lib/db/SiteDataApi'
 import { DynamicLayout } from '@/themes/theme'
 
+const THEMES_WITH_AUTH_PAGES = ['gitbook', 'magzine', 'proxio', 'starter']
+
 /**
  * 注册
  * @param {*} props
@@ -37,12 +39,19 @@ export async function getStaticProps(req) {
  * @returns
  */
 export function getStaticPaths() {
+  if (!THEMES_WITH_AUTH_PAGES.includes(BLOG.THEME)) {
+    return {
+      paths: [],
+      fallback: false
+    }
+  }
+
   return {
     paths: [
       { params: { index: [] } }, // 使 /sign-up 路径可访问
       { params: { index: ['sign-up'] } } // 明确 sign-up 生成路径
     ],
-    fallback: 'blocking' // 使用 'blocking' 模式让未生成的路径也能正确响应
+    fallback: false
   }
 }
 export default SignUp

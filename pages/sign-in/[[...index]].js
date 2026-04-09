@@ -4,6 +4,8 @@ import { fetchGlobalAllData } from '@/lib/db/SiteDataApi'
 // import { getGlobalData } from '@/lib/db/getSiteData'
 import { DynamicLayout } from '@/themes/theme'
 
+const THEMES_WITH_AUTH_PAGES = ['gitbook', 'magzine', 'proxio', 'starter']
+
 /**
  * 登录
  * @param {*} props
@@ -38,12 +40,19 @@ export async function getStaticProps(req) {
  * @returns
  */
 export function getStaticPaths() {
+  if (!THEMES_WITH_AUTH_PAGES.includes(BLOG.THEME)) {
+    return {
+      paths: [],
+      fallback: false
+    }
+  }
+
   return {
     paths: [
       { params: { index: [] } }, // 使 /sign-in 路径可访问
       { params: { index: ['factor-one'] } } // 明确 sign-in 生成路径
     ],
-    fallback: 'blocking' // 使用 'blocking' 模式让未生成的路径也能正确响应
+    fallback: false
   }
 }
 

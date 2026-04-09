@@ -3,6 +3,17 @@ import { siteConfig } from '@/lib/config'
 import { resolvePostProps } from '@/lib/db/SiteDataApi'
 import { DynamicLayout } from '@/themes/theme'
 
+const THEMES_WITH_DASHBOARD = ['gitbook', 'magzine', 'proxio', 'starter']
+const dashboardPaths = [
+  { params: { index: [] } },
+  { params: { index: ['membership'] } },
+  { params: { index: ['balance'] } },
+  { params: { index: ['user-profile'] } },
+  { params: { index: ['user-profile', 'security'] } },
+  { params: { index: ['order'] } },
+  { params: { index: ['affiliate'] } }
+]
+
 /**
  * 根据notion的slug访问页面
  * 只解析一级目录例如 /about
@@ -34,17 +45,18 @@ export async function getStaticProps({ locale }) {
 }
 
 export const getStaticPaths = () => {
+  // 当前只有部分主题实现了 dashboard 布局。
+  // 对未实现的主题继续预渲染会在构建阶段生成一批无意义页面，且容易触发导出/预渲染异常。
+  if (!THEMES_WITH_DASHBOARD.includes(BLOG.THEME)) {
+    return {
+      paths: [],
+      fallback: false
+    }
+  }
+
   return {
-    paths: [
-      { params: { index: [] } }, // 对应首页路径
-      { params: { index: ['membership'] } },
-      { params: { index: ['balance'] } },
-      { params: { index: ['user-profile'] } },
-      { params: { index: ['user-profile', 'security'] } }, // 嵌套路由，按结构传递
-      { params: { index: ['order'] } },
-      { params: { index: ['affiliate'] } }
-    ],
-    fallback: 'blocking' // 或者 true，阻塞式渲染
+    paths: dashboardPaths,
+    fallback: false
   }
 }
 
